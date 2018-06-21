@@ -77,6 +77,16 @@ public class PetProvider extends ContentProvider {
     }
 
     private Uri insertPet (Uri uri, ContentValues values) {
+        String name = values.getAsString(PetEntry.COLUMN_PET_NAME);
+        String breed = values.getAsString(PetEntry.COLUMN_PET_BREED);
+        int weight = values.getAsInteger(PetEntry.COLUMN_PET_WEIGHT);
+        int gender = values.getAsInteger(PetEntry.COLUMN_PET_GENDER);
+
+        if (name == null || breed == null || weight == 0 || gender == 0)    {
+            throw new IllegalArgumentException("Please insert them all");
+        }
+
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         long id = db.insert(PetEntry.TABLE_NAME, null, values);
         if (id == -1) {
